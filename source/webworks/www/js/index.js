@@ -1,134 +1,89 @@
 var app = {
-	// Application Constructor
-	initialize: function() {
-		this.bindEvents();
-	},
-	id: 0,
-	// Bind Event Listeners
-	//
-	// Bind any events that are required on startup. Common events are:
-	// 'load', 'deviceready', 'offline', and 'online'.
-	bindEvents: function() {
-		document.addEventListener('deviceready', this.onDeviceReady, false);
-	},
-	// deviceready Event Handler
-	//
-	// The scope of 'this' is the event. In order to call the 'receivedEvent'
-	// function, we must explicity call 'app.receivedEvent(...);'
-	onDeviceReady: function() {
-		app.receivedEvent('deviceready');
-	},
-	// Update DOM on a Received Event
-	receivedEvent: function(id) {
-		console.log('Received Event: ' + id);
-		app.bbinit();
-	},
-	theme: 'dark',
-	darkScreenColor: '#000',
-	gamemgr: null,
-	ss: null,
-	lang: null,
-	undo: false,
-	vividbackground: "#776e65",
-	screenshot: null,
-	useAudio: true,
-	preloadAudio: function() {
-		PGLowLatencyAudio.preloadAudio("low.wav", "sounds/", 4, function(echoValue) {
-			console.log(echoValue);
-		});
-		PGLowLatencyAudio.preloadAudio("high.wav", "sounds/", 4, function(echoValue) {
-			console.log(echoValue);
-		});
-		PGLowLatencyAudio.preloadAudio("win.wav", "sounds/", 1, function(echoValue) {
-			console.log(echoValue);
-		});
-	},
-	bbinit: function() {
-		app.lang = blackberry.system.language;
-		app.ss = "file://" + blackberry.io.home + "/ss.png";
-		app.theme = localStorage.getItem('theme');
-		app.useAudio = (localStorage.getItem('sound') === "true");
-		app.undo = (localStorage.getItem('undo') === "true");
-		app.preloadAudio();
-		document.body.className = app.theme;
-		//Register BBM
-		if (!Bbm.registered) {
-			Bbm.register();
-		}
-		bb.init({
-			controlsDark: app.theme === 'dark',
-			listsDark: app.theme === 'dark',
-			onscreenready: function(e, id) {
-				i18n.process(e, app.lang);
-				bb.screen.controlColor = (app.theme === 'dark') ? 'dark' : 'light';
-				bb.screen.listColor = (app.theme === 'dark') ? 'dark' : 'light';
-				if (app.theme === 'dark') {
-					var screen = e.querySelector('[data-bb-type=screen]');
-					if (screen) {
-						screen.style['background-color'] = app.darkScreenColor;
-					}
-					if (document.body.classList.contains("vivid")) {
-						document.body.classList.remove("vivid");
-					}
-					if (!document.body.classList.contains("dark")) {
-						document.body.classList.add("dark");
-					}
-				} else if (app.theme === 'vivid') {
-					document.body.className = 'vivid';
-					var screen = e.querySelector('[data-bb-type=screen]');
-					if (screen) {
-						//screen.style['background-color'] = app.vividbackground;
-					}
-				} else {
-					if (document.body.classList.contains("dark")) {
-						document.body.classList.remove("dark");
-					}
-					if (document.body.classList.contains("vivid")) {
-						document.body.classList.remove("vivid");
-					}
-				}
-			},
-			ondomready: function(e, id, param) {
-				if (id === 'settings') {
-					loadSettings(e);
-				}
-			}
-		});
-		if (app.theme === 'dark') {
-			document.body.style['background-color'] = app.darkScreenColor;
-			document.body.style['color'] = '#88919A';
-		}
-		bb.pushScreen('game.html', 'game');
-		navigator.splashscreen.hide();
-	}
+    initialize: function() {
+        this.bindEvents();
+    },
+    // Bind any events that are required on startup. Common events are:
+    // 'load', 'deviceready', 'offline', and 'online'.
+    bindEvents: function() {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
+    },
+    // deviceready Event Handler
+    //
+    // The scope of 'this' is the event. In order to call the 'receivedEvent'
+    // function, we must explicity call 'app.receivedEvent(...);'
+    onDeviceReady: function() {
+        app.receivedEvent('deviceready');
+        app.initBBUI();
+    },
+    // Update DOM on a Received Event
+    receivedEvent: function(id) {
+        console.log('Received Event: ' + id);
+    },
+    config: {},
+    loadConfig: function() {
+        if (!localStorage.getItem('firstrun')) {
+            //第一次安装后运行
+            this.config['version'] = blackberry.app.version;
+            this.config['darktheme'] = true;
+            this.config['wifionly'] = false;
+            this.config['firstrun'] = true;
+            this.config['darkscreenbgColor'] = '#262626';
+            this.config['darkscreencolor'] = '#88919A';
+            this.saveConfig();
+            localStorage.setItem('firstrun', this.config['version']);
+        } else {
+            //已运行过
+            this._loadConfig();
+            if (this.config.version !== blackberry.app.verison) {
+                //升级判定，保存的版本号不一致，说明版本已变更
+                this.config['firstrun'] = true;
+            }
+        }
+    },
+    saveConfig: function() {
+        localStorage.setItem('config', JSON.stringify(this.config));
+    },
+    _loadConfig: function() {
+        this.config = JSON.parse(localStorage.getItem('config'));
+    },
+    initBBUI: function() {
+        this.loadConfig();
+        if (!Bbm.registered) {
+            Bbm.register();
+        }
+        bb.init({
+            controlsDark: app.config.darktheme,
+            listsDark: app.config.darktheme,
+            onscreenready: function(e, id) {
+                bb.screen.controlColor = (app.config['darktheme']) ? 'dark' : 'light';
+                bb.screen.listColor = (app.config['darktheme']) ? 'dark' : 'light';
+                if (app.config.darktheme) {
+                    var screen = e.querySelector('[data-bb-type=screen]');
+                    if (screen) {
+                        screen.style['background-color'] = app.config.darkscreenbgColor;
+                    }
+                    if (!document.body.classList.contains("dark")) {
+                        document.body.classList.add("dark")
+                    }
+                } else {
+                    if (document.body.classList.contains("dark")) {
+                        document.body.classList.remove("dark");
+                    }
+                }
+            },
+            ondomready: function(e, id, param) {
+                if (id === 'settings') {
+                    app.loadSettings(e);
+                }
+            }
+        });
+        if (app.config.darktheme) {
+            document.body.style['background-color'] = app.config.darkscreenbgColor;
+            document.body.style['color'] = app.config.darkscreencolor;
+        }
+        bb.pushScreen('main.html', 'main');
+        navigator.splashscreen.hide();
+    },
+    loadSettings: function(e) {
+    }
 };
-
-function loadSettings(element) {
-	// 读取配置数据
-	var togglebutton = element.getElementById('themeSelect');
-	var theme = localStorage.getItem("theme");
-	if (theme === 'dark') {
-		togglebutton.setSelectedItem(0);
-	} else if (theme === 'vivid') {
-		togglebutton.setSelectedItem(2);
-	} else {
-		togglebutton.setSelectedItem(1);
-	}
-}
-
-function saveTheme(e) {
-	app.theme = e.value;
-	localStorage.setItem("theme", e.value);
-}
-
-function saveSettings(e) {
-	if (e.checked) {
-		console.log(">>使用黑色主题.");
-		app.useDarkTheme = true;
-		localStorage.setItem("theme", "true");
-	} else {
-		console.log(">>使用亮色主题.");
-		app.useDarkTheme = false;
-		localStorage.setItem("theme", "false");
-	}
-}

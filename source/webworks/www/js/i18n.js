@@ -35,13 +35,13 @@ var i18n = {regx: /`([\w\d\s.-]*?)`/gi, process: function(e, r) {
 var qstr = {
     default: "en-US",
     "zh-CN": {
-        "intro": '合并方块，直到出现<strong>2048</strong>！'
+        "intro": ''
         
     },
     'en-US': {
-        "intro": 'Join the numbers and get to the <strong>2048 tile!</strong>'
+        "intro": ''
     },
     'fr-FR': {
-        "intro": 'Regroupez les nombres jusqu\'à avoir 2048!'
+        "intro": ''
     }
 }
