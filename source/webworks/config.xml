@@ -1,0 +1,15 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<widget id="cnbbdev.onlinetv" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:rim="http://www.blackberry.com/ns/widgets">
+    <name>OnlineTV Community</name>
+    <name lang="zh-CN">视库 社区版</name>
+    <author>CNBBDev</author>
+    <description>OnlineTV Community Version.</description>
+    <content src="index.html" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="ChildBrowser" value="enable" />
+    <preference name="DiskCache" value="enable" />
+    <preference name="HideKeyboardFormAccessoryBar" value="disable" />
+    <preference name="Orientation" value="default" />
+    <preference name="PopupBlocker" value="disable" />
+    <preference name="WebSecurity" value="disable" />
+</widget>
