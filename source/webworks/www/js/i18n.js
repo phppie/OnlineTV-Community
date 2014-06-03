@@ -1,47 +1,93 @@
-var i18n = {regx: /`([\w\d\s.-]*?)`/gi, process: function(e, r) {
-        for (var n = e.querySelectorAll("[i18n=true]"), t = 0; t < n.length; t++) {
-            for (var i = n[t], a = i18n.getAllPropsOf(i), l = a[0], g = 0; g < l.length; g++) {
-                for (var o = l[g], u = o.v, c = i18n.regx.exec(u); c; )
-                    u = i18n.replace(u, c[1], r), console.log("[i18n]>>" + JSON.stringify(o) + ">>" + u), c = i18n.regx.exec(u);
-                i[o.p] = u
+/*
+ * 
+ * @author Merrick Zhang ( anphorea@gmail.com )
+ */
+var i18n = {
+    // RegExp to match the i18n key ( `key` )
+    regx: /`([\w\d\s.-]*?)`/ig,
+    // Process all nodes in element with i18n strings.
+    process: function(element, lang) {
+        var items = element.querySelectorAll('[i18n]');
+        for (var i = 0; i < items.length; i++) {
+            var item = items[i];
+            var all = i18n.getAllPropsOf(item);
+            //Deal with properties
+            var props = all[0];
+            for (var j = 0; j < props.length; j++) {
+                var pv = props[j];
+                var str = pv.v;
+                var t = i18n.regx.exec(str);
+                while (t) {
+                    str = i18n.replace(str, t[1], lang);
+                    console.log('[i18n]>>' + JSON.stringify(pv) + ">>" + str);
+                    t = i18n.regx.exec(str);
+                }
+                item[pv.p] = str;
             }
-            for (var s = a[1], g = 0; g < s.length; g++) {
-                for (var o = s[g], u = o.v, c = i18n.regx.exec(u); c; )
-                    u = i18n.replace(u, c[1], r), console.log("[i18n]>>" + JSON.stringify(o) + ">>" + u), c = i18n.regx.exec(u);
-                i.setAttribute([o.a], u)
+            //Deal with attributes.
+            var atts = all[1];
+            for (var j = 0; j < atts.length; j++) {
+                var pv = atts[j];
+                var str = pv.v;
+                var t = i18n.regx.exec(str);
+                while (t) {
+                    str = i18n.replace(str, t[1], lang);
+                    console.log('[i18n]>>' + JSON.stringify(pv) + ">>" + str);
+                    t = i18n.regx.exec(str);
+                }
+                item.setAttribute([pv.a], str);
             }
         }
-    }, replace: function(e, r, n) {
-        var t = i18n.get(r, n), i = new RegExp("`" + r + "`", "ig");
-        return e.replace(i, t)
-    }, get: function(e, r) {
+    },
+    replace: function(str, token, lang) {
+        //replace token in str to specified lang
+        var target = i18n.get(token, lang);
+        var re = new RegExp('`' + token + '`', "ig");
+        return str.replace(re, target);
+    },
+    get: function(id, lang) {
+        /*
+         * Get i18n str from qstr.
+         */
         try {
-            var n = qstr[r][e];
-            return n ? n : "[" + e + "]"
-        } catch (t) {
-            return n = qstr[qstr.default][e], n ? n : "[" + e + "]"
-        }
-    }, getAllPropsOf: function(e) {
-        var r = [];
-        e.innerHTML && e.innerHTML.length > 2 && r.push({p: "innerHTML", v: e.innerHTML});
-        var n = [];
-        if (e.attributes)
-            for (var t = 0; t < e.attributes.length; t++) {
-                var i = e.attributes[t];
-                i.value.length > 3 && n.push({a: i.name, v: i.value})
+            var str = qstr[lang][id];
+            if (str) {
+                return str;
+            } else {
+                str = qstr[qstr.default][id];
+                if (str)
+                    return str
+                else
+                    return "[" + id + "]";
             }
-        return[r, n]
-    }};
-var qstr = {
-    default: "en-US",
-    "zh-CN": {
-        "intro": ''
-        
+        } catch (ex) {
+            // language not available. use default.
+            return "[" + id + "]";
+        }
+
     },
-    'en-US': {
-        "intro": ''
-    },
-    'fr-FR': {
-        "intro": ''
+    getAllPropsOf: function(obj) {
+        //get innerTEXT
+        var items = [];
+        if (obj.innerHTML && obj.innerHTML.length > 2)
+            items.push({
+                p: 'innerHTML',
+                v: obj.innerHTML
+            });
+
+        //get all attributes
+        var atts = [];
+        if (obj.attributes) {
+            for (var i = 0; i < obj.attributes.length; i++) {
+                var at = obj.attributes[i];
+                if (at.value.length > 3) {
+                    atts.push({
+                        a: at.name,
+                        v: at.value
+                    });
+                }
+            }
+        }
+        return [items, atts];
     }
 }
