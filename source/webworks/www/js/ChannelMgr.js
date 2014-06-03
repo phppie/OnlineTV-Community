@@ -1,4 +1,5 @@
-var ChannelMgr = {
+//频道源管理器
+var ChannelListMgr = {
     data: [],
     loadData: function() {
         //从存储中载入数据
