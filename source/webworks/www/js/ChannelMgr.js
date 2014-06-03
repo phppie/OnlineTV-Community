@@ -23,7 +23,7 @@ var ChannelListMgr = {
     },
     add: function(name, url) {
         //根据NAME和URL添加频道
-        var item = new Channel(name, url);
+        var item = new ChannelList(name, url);
         this.data.push(item);
         this.saveData();
         return item.id;
@@ -50,7 +50,7 @@ var ChannelListMgr = {
 /*
  * 频道类
  */
-function Channel(name, url) {
+function ChannelList(name, url) {
     this.name = name ? name : url;
     this.url = url;
     this.id = bb.guidGenerator(); // 需要BBUI.JS
