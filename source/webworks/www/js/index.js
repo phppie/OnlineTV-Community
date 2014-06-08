@@ -24,20 +24,15 @@ var app = {
         if (!localStorage.getItem('firstrun')) {
             //第一次安装后运行
             this.config['version'] = blackberry.app.version;
-            this.config['darktheme'] = true;
-            this.config['wifionly'] = false;
-            this.config['firstrun'] = true;
-            this.config['darkscreenbgColor'] = '#262626';
-            this.config['darkscreencolor'] = '#88919A';
+            this.config['darktheme'] = bb.device.is1280x768 ? false : true;
+            this.config['wifionly'] = true;
+            this.config['darkscreenbgColor'] = Theme.dark.bgcolor;
+            this.config['darkscreencolor'] = Theme.dark.color;
             this.saveConfig();
-            localStorage.setItem('firstrun', this.config['version']);
+            localStorage.setItem('firstrun', false);
         } else {
             //已运行过
             this._loadConfig();
-            if (this.config.version !== blackberry.app.verison) {
-                //升级判定，保存的版本号不一致，说明版本已变更
-                this.config['firstrun'] = true;
-            }
         }
     },
     saveConfig: function() {
@@ -61,6 +56,7 @@ var app = {
                     var screen = e.querySelector('[data-bb-type=screen]');
                     if (screen) {
                         screen.style['background-color'] = app.config.darkscreenbgColor;
+                        screen.style['color'] = app.config.darkscreencolor;
                     }
                     if (!document.body.classList.contains("dark")) {
                         document.body.classList.add("dark")
@@ -73,17 +69,11 @@ var app = {
             },
             ondomready: function(e, id, param) {
                 if (id === 'settings') {
-                    app.loadSettings(e);
+                    otv.loadSettings(e, id, param);
                 }
             }
         });
-        if (app.config.darktheme) {
-            document.body.style['background-color'] = app.config.darkscreenbgColor;
-            document.body.style['color'] = app.config.darkscreencolor;
-        }
         bb.pushScreen('main.html', 'main');
         navigator.splashscreen.hide();
-    },
-    loadSettings: function(e) {
     }
 };

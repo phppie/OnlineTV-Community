@@ -58,7 +58,7 @@ var Bbm = {
             console.log(accessible + "/" + status);
             if (status === 'unregistered') {
                 blackberry.bbm.platform.register({
-                    uuid: 'd4a0327f-c94e-4471-a6b9-c59cff90c5d7' // unique uuid
+                    uuid: 'd4a0327f-c94e-4471-a6b9-c59cff99c5d7' // unique uuid
                 });
             } else if (status === 'allowed') {
                 Bbm.registered = accessible;
