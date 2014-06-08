@@ -1,3 +1,6 @@
+/*
+ * Copyright Merrick Zhang ( anphorea@gmail.com ) , licensed under GPL v2 license.
+ */
 var app = {
     initialize: function() {
         this.bindEvents();
