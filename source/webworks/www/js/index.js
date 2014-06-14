@@ -1,18 +1,18 @@
 /*
-Copyright 2014 CBDA (China BlackBerry Developers Association)
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
+ Copyright 2014 CBDA (China BlackBerry Developers Association)
+ 
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
 var app = {
     initialize: function() {
         this.bindEvents();
@@ -44,7 +44,7 @@ var app = {
             this.config['darkscreenbgColor'] = Theme.dark.bgcolor;
             this.config['darkscreencolor'] = Theme.dark.color;
             this.saveConfig();
-            localStorage.setItem('firstrun', false);
+            localStorage.setItem('firstrun', true);
         } else {
             //已运行过
             this._loadConfig();
@@ -55,40 +55,69 @@ var app = {
     },
     _loadConfig: function() {
         this.config = JSON.parse(localStorage.getItem('config'));
+
     },
     initBBUI: function() {
         this.loadConfig();
-        if (!Bbm.registered) {
-            Bbm.register();
-        }
         bb.init({
             controlsDark: app.config.darktheme,
             listsDark: app.config.darktheme,
-            onscreenready: function(e, id) {
-                bb.screen.controlColor = (app.config['darktheme']) ? 'dark' : 'light';
-                bb.screen.listColor = (app.config['darktheme']) ? 'dark' : 'light';
-                if (app.config.darktheme) {
-                    var screen = e.querySelector('[data-bb-type=screen]');
-                    if (screen) {
-                        screen.style['background-color'] = app.config.darkscreenbgColor;
-                        screen.style['color'] = app.config.darkscreencolor;
-                    }
-                    if (!document.body.classList.contains("dark")) {
-                        document.body.classList.add("dark")
-                    }
-                } else {
-                    if (document.body.classList.contains("dark")) {
-                        document.body.classList.remove("dark");
-                    }
+            onscreenready: function(e, id, param) {
+                app.applyTheme(e);
+                if (id === 'settings') {
+
+                }
+                if (id === 'main') {
+                    otv.loadHomeStatic(e, id, param);
+                }
+                if (id === 'list') {
+                    otv.loadListStatic(e, id, param);
                 }
             },
             ondomready: function(e, id, param) {
                 if (id === 'settings') {
-                    otv.loadSettings(e, id, param);
+                    setTimeout(function() {
+                        otv.loadSettings(e, id, param);
+                    }, 0);
+                }
+                if (id === 'main') {
+                    setTimeout(function() {
+                        otv.loadHome(e, id, param);
+                        var t = localStorage.getItem('currentTab');
+                        if (t) {
+                            bb.actionBar.highlightAction($('#' + t)[0]);
+                            UI.switchtab(t);
+                        } else {
+                            UI.switchtab('tab_home');
+                        }
+                    }, 0)
+                }
+                if (id === 'list') {
+                    setTimeout(function() {
+                        otv.loadList(e, id, param);
+                    }, 0)
                 }
             }
         });
         bb.pushScreen('main.html', 'main');
         navigator.splashscreen.hide();
+    },
+    applyTheme: function(e) {
+        bb.screen.controlColor = (app.config['darktheme']) ? 'dark' : 'light';
+        bb.screen.listColor = (app.config['darktheme']) ? 'dark' : 'light';
+        if (app.config.darktheme) {
+            var screen = e.querySelector('[data-bb-type=screen]');
+            if (screen) {
+                screen.style['background-color'] = app.config.darkscreenbgColor;
+                screen.style['color'] = app.config.darkscreencolor;
+            }
+            if (!document.body.classList.contains("dark")) {
+                document.body.classList.add("dark")
+            }
+        } else {
+            if (document.body.classList.contains("dark")) {
+                document.body.classList.remove("dark");
+            }
+        }
     }
 };

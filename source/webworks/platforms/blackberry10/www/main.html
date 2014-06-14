@@ -1,0 +1,51 @@
+<!--
+Copyright 2014 CBDA (China BlackBerry Developers Association)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div data-bb-type="screen">
+    <!-- 主页屏幕 -->
+    <div data-bb-type="round-panel" id="div_home"> 
+        <div data-bb-type="panel-header">主页</div>
+        <div data-bb-type="scroll-panel">
+            <div data-bb-type="image-list" data-bb-images="none" data-bb-header-justify="right" data-bb-style="arrowbuttons" id="mainlist">
+                <div data-bb-type="item" data-bb-title="开发中"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 频道源列表 -->
+    <div data-bb-type="round-panel" id="div_list">
+        <div data-bb-type="panel-header">频道列表</div>
+        <div data-bb-type="scroll-panel">
+            <div data-bb-type="image-list" data-bb-header-justify="left" data-bb-header-style="solid" data-bb-style="arrowbuttons">
+                <div data-bb-type="item" data-bb-title="开发中"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 频道源列表 -->
+    <div data-bb-type="round-panel" id="div_fav">
+        <div data-bb-type="panel-header">我的频道</div>
+        <div data-bb-type="scroll-panel">
+            <div data-bb-type="image-list" data-bb-images="none" data-bb-header-justify="left" data-bb-header-style="solid" data-bb-style="removebuttons">
+                <div data-bb-type="item" data-bb-title="开发中"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 动作栏 -->
+    <div data-bb-type="action-bar" id="ab">
+        <div data-bb-type="action" id="tab_home" onclick="UI.switchtab(this.id)" data-bb-style="tab" data-bb-img="img/ic_home.png">主页</div>
+        <div data-bb-type="action" id="tab_list" onclick="UI.switchtab(this.id)"  data-bb-style="tab" data-bb-img="img/ic_view_list.png">频道源列表</div>
+        <div data-bb-type="action" id="tab_fav" onclick="UI.switchtab(this.id)"  data-bb-style="tab" data-bb-img="img/ic_contacts.png">我的频道</div>
+    </div>
+
+</div>
