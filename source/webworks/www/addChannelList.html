@@ -1,0 +1,39 @@
+<!--
+Copyright 2014 CBDA (China BlackBerry Developers Association)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<div data-bb-type="screen">
+    <div data-bb-type="title" data-bb-caption="添加数据源"></div>
+    <div data-bb-type="round-panel"> 
+        <div data-bb-type="panel-header">使用URL添加</div>
+        <input type="text" id="addChannelListByURL_name" placeholder="在此输入频道源名称">
+        <input type="url" id="addChannelListByURL_inputbox" placeholder="在此输入频道源地址">
+        <table width="100%">
+            <tr>
+                <td>
+                    <div data-bb-type="button"  data-bb-style="stretch"  onclick="UI.paste('addChannelListByURL_inputbox')">粘贴</div>
+                </td>
+                <td>
+                    <div data-bb-type="button"  data-bb-style="stretch"  onclick="UI.addChannelListByURL('addChannelListByURL_inputbox','addChannelListByURL_name')">确定</div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div data-bb-type="round-panel"> 
+        <div data-bb-type="panel-header">使用二维码添加</div>
+        <div data-bb-type="button"  data-bb-style="stretch"  data-bb-img="img/ic_scan_barcode.png">启动二维码扫描器</div>
+    </div>
+    <div data-bb-type="action-bar" data-bb-back-caption="返回">
+    </div>
+</div>

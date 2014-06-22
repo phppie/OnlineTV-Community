@@ -17,6 +17,7 @@ var otv = {
     init: function() {
         ChannelListMgr.loadData();
         FavMgr.loadData();
+        HistoryMgr.loadData();
     },
     loadSettings: function(e, id, p) {
         /*
@@ -37,9 +38,79 @@ var otv = {
                 item.setAttribute('data-bb-img', e['img']);
                 item.onclick = UI.handleChannelListClick;
                 items.push(item);
-            })
+            });
             $('#div_list').find('[data-bb-type=image-list]')[0].refresh(items);
         });
+    }, loadFav: function(e, id, p) {
+        FavMgr.loadData();
+        var favitems = [];
+        $.each(FavMgr.data, function(i, e) {
+            var item = document.createElement('div');
+            item.setAttribute('data-bb-type', 'item');
+            item.setAttribute('data-catagory-index', i);
+            item.setAttribute('data-catagory-id', e['id']);
+            item.setAttribute('data-list-urls', JSON.stringify(e['urls']));
+            item.setAttribute('data-bb-title', e['name']);
+            item.onclick = function() {
+                UI.handleNormalClick('div_fav');
+            };
+            item.onbtnclick = function() {
+                UI.handleFavRemoveButton();
+            };
+            favitems.push(item);
+        });
+        if (favitems.length > 0) {
+            $('#div_fav').find('[data-bb-type=image-list]')[0].refresh(favitems);
+            $('#ad2').hide();
+        } else {
+            $('#ad2').show();
+        }
+    },
+    loadHistory: function(e, id, p) {
+        HistoryMgr.loadData();
+        var hisitems = [];
+        $.each(HistoryMgr.data, function(i, e) {
+            var item = document.createElement('div');
+            item.setAttribute('data-bb-type', 'item');
+            item.setAttribute('data-catagory-index', i);
+            item.setAttribute('data-catagory-id', e['id']);
+            item.setAttribute('data-list-urls', JSON.stringify(e['urls']));
+            item.setAttribute('data-bb-title', e['name']);
+            item.onclick = function() {
+                UI.handleNormalClick('div_home');
+            };
+            item.onbtnclick = function() {
+                UI.handleHistoryRemoveButton();
+            };
+            hisitems.push(item);
+        });
+        if (hisitems.length > 0) {
+            $('#mainlist')[0].refresh(hisitems);
+            $('#ad').hide();
+        } else {
+            $('#ad').show();
+        }
+    },
+    loadChannels: function() {
+        var data = ChannelListMgr.list();
+        var clist = [];
+        //data-bb-type="image-list"
+        $.each(data, function(i, e) {
+            var item = document.createElement('div');
+            item.setAttribute('data-bb-type', 'item');
+            item.setAttribute('data-catagory-index', i);
+            item.setAttribute('data-bb-title', e.name);
+            item.setAttribute('data-bb-url', e.url);
+            item.setAttribute('data-guid', e.id);
+            item.onclick = function() {
+                UI.handleChannelMgrClick();
+            };
+            item.onbtnclick = function() {
+                UI.handleChannelMgrRemove();
+            };
+            clist.push(item);
+        });
+        $('[data-bb-type=image-list]')[0].refresh(clist);
     },
     loadHomeStatic: function(e, id, p) {
 
@@ -56,14 +127,21 @@ var otv = {
             item.setAttribute('data-list-index', i);
             item.setAttribute('data-list-urls', JSON.stringify(e['url']));
             item.setAttribute('data-bb-title', e['title']);
-            if (e['url'].length > 1) {
-                item.innerHTML = '当前有' + e['url'].length + '个频道源，长按以使用其他源';
-            } else {
-                item.innerHTML = "";
-            }
-            if (e['img'])
+//            if (e['url'].length > 1) {
+//                item.innerHTML = '当前有' + e['url'].length + '个频道源，长按以使用其他源';
+//            } else {
+//                item.innerHTML = "";
+//            }
+            if (e['img']) {
+                //显示频道图标
                 item.setAttribute('data-bb-img', e['img']);
+            } else {
+                //否则显示分类图标
+                item.setAttribute("data-bb-img", cat.img);
+            }
+
             item.onclick = UI.handleClick;
+            item.onbtnclick = UI.handlebtnClick;
             items.push(item);
         });
         $('[data-bb-type=image-list]')[0].refresh(items);
@@ -115,3 +193,29 @@ var otv = {
         );
     }
 };
+
+//---[ webwork.min.js ]---------------------------------------------------
+function webwork(a) {
+    window.URL = window.URL || window.webkitURL;
+    a = "onmessage=function(event){postMessage(" + a + "(event.data));}";
+    var b;
+    try {
+        b = new Blob([a], {type: "application/javascript"})
+    } catch (f) {
+        window.BlobBuilder = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder, b = new BlobBuilder, b.append(a), b = b.getBlob()
+    }
+    return function() {
+        var a = new Worker(URL.createObjectURL(b)), c = Array.prototype.slice.call(arguments), e, d;
+        e = "function" === typeof c[c.length - 1] ? c.pop() : function() {
+        };
+        a.onmessage = function(a) {
+            d || (d = !0, e(null, a.data))
+        };
+        a.onerror = function(a) {
+            if (!d)
+                return d = !0, e(a), !1
+        };
+        a.postMessage.apply(a, c)
+    }
+}
+;

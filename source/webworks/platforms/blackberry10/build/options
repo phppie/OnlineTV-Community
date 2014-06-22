@@ -1,13 +1,13 @@
 -package
--debugToken
-C:\Users\Merrick\.cordova\blackberry10debugtoken.bar
--devMode
+-buildId
+1
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\device\bb10app.bar
 -barVersion
 1.5
 -C
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src
 bar-descriptor.xml
+C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\addChannelList.html
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\config.xml
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\cordova.js
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\cordova_plugins.js
@@ -15,6 +15,7 @@ C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\pla
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\index.html
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\main.html
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\settings.html
+C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\sourceManager.html
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\viewlist.html
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\wwe
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\chrome\frameworkModules.js
@@ -152,6 +153,7 @@ C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\pla
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\js\ChannelListMgr.js
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\js\ChannelMgr.js
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\js\FavMgr.js
+C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\js\history.js
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\js\index.js
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\js\Theme.js
 C:\Users\Merrick\Documents\GitHub\cnbbdev\OnlineTV-Community\source\webworks\platforms\blackberry10\build\src\js\ui.js

@@ -59,6 +59,7 @@ var app = {
     },
     initBBUI: function() {
         this.loadConfig();
+        FavMgr.loadData();
         bb.init({
             controlsDark: app.config.darktheme,
             listsDark: app.config.darktheme,
@@ -83,6 +84,8 @@ var app = {
                 if (id === 'main') {
                     setTimeout(function() {
                         otv.loadHome(e, id, param);
+                        otv.loadFav(e, id, param);
+                        otv.loadHistory(e, id, param);
                         var t = localStorage.getItem('currentTab');
                         if (t) {
                             bb.actionBar.highlightAction($('#' + t)[0]);
@@ -90,12 +93,17 @@ var app = {
                         } else {
                             UI.switchtab('tab_home');
                         }
-                    }, 0)
+                    }, 0);
                 }
                 if (id === 'list') {
                     setTimeout(function() {
                         otv.loadList(e, id, param);
-                    }, 0)
+                    }, 0);
+                }
+                if (id === 'channelManager') {
+                    setTimeout(function() {
+                        otv.loadChannels();
+                    }, 0);
                 }
             }
         });

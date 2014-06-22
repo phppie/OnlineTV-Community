@@ -16,10 +16,12 @@ limitations under the License.
 <div data-bb-type="screen">
     <!-- 主页屏幕 -->
     <div data-bb-type="round-panel" id="div_home"> 
-        <div data-bb-type="panel-header">主页</div>
+        <div data-bb-type="panel-header">历史记录</div>
+        <div id="ad">
+            无内容，请更新频道，或前往频道列表进行选择。
+        </div>
         <div data-bb-type="scroll-panel">
-            <div data-bb-type="image-list" data-bb-images="none" data-bb-header-justify="right" data-bb-style="arrowbuttons" id="mainlist">
-                <div data-bb-type="item" data-bb-title="开发中"></div>
+            <div data-bb-type="image-list" data-bb-images="none" data-bb-header-justify="right" id="mainlist" data-bb-style="removebuttons">
             </div>
         </div>
     </div>
@@ -28,24 +30,30 @@ limitations under the License.
         <div data-bb-type="panel-header">频道列表</div>
         <div data-bb-type="scroll-panel">
             <div data-bb-type="image-list" data-bb-header-justify="left" data-bb-header-style="solid" data-bb-style="arrowbuttons">
-                <div data-bb-type="item" data-bb-title="开发中"></div>
             </div>
         </div>
     </div>
     <!-- 频道源列表 -->
     <div data-bb-type="round-panel" id="div_fav">
         <div data-bb-type="panel-header">我的频道</div>
+        <div id="ad2">
+            在你喜欢的频道上点击+，就会将其收藏到这里。
+        </div>
         <div data-bb-type="scroll-panel">
             <div data-bb-type="image-list" data-bb-images="none" data-bb-header-justify="left" data-bb-header-style="solid" data-bb-style="removebuttons">
-                <div data-bb-type="item" data-bb-title="开发中"></div>
             </div>
         </div>
     </div>
     <!-- 动作栏 -->
     <div data-bb-type="action-bar" id="ab">
         <div data-bb-type="action" id="tab_home" onclick="UI.switchtab(this.id)" data-bb-style="tab" data-bb-img="img/ic_home.png">主页</div>
-        <div data-bb-type="action" id="tab_list" onclick="UI.switchtab(this.id)"  data-bb-style="tab" data-bb-img="img/ic_view_list.png">频道源列表</div>
+        <div data-bb-type="action" id="tab_list" onclick="UI.switchtab(this.id)"  data-bb-style="tab" data-bb-img="img/ic_view_list.png">频道列表</div>
         <div data-bb-type="action" id="tab_fav" onclick="UI.switchtab(this.id)"  data-bb-style="tab" data-bb-img="img/ic_contacts.png">我的频道</div>
     </div>
-
+    <!-- 菜单栏 -->
+    <div data-bb-type="menu">
+        <div data-bb-type="menu-item" data-bb-img="img/ic_info.png" data-bb-pin="left" onclick="alert('还没做')">关于</div>
+        <div data-bb-type="menu-item" data-bb-img="img/ic_reload.png" onclick="UI.refreshData()">更新数据</div>
+        <div data-bb-type="menu-item" data-bb-img="img/ic_settings.png" data-bb-pin="right" onclick="UI.enterSettings()">设置</div>
+    </div>
 </div>

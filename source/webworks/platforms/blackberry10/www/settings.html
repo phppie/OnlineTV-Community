@@ -14,17 +14,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <div data-bb-type="screen">
-    <div data-bb-type="action-bar" data-bb-back-caption="`back`" i18n>
-    </div>
-    <div data-bb-type="round-panel">
-        <div data-bb-type="panel-header" i18n>`visualsettings`</div>
-        <div >
-            <div data-bb-type="label" i18n>`dark`</div>
-            <select data-bb-style="stretch" onchange="saveTheme(this)" id="themeSelect">
-                <option value="dark" >Dark</option>
-                <option value="bright">Bright</option>
-                <option value="vivid" >Vivid</option>
-            </select>
-        </div>
+    <div data-bb-type="title" data-bb-caption="设置"></div>
+    <div data-bb-type="action-bar" data-bb-back-caption="返回"></div>
+    <div data-bb-type="round-panel"> 
+        <div data-bb-type="panel-header">数据源管理</div>
+        <div data-bb-type="button"  data-bb-style="stretch"  onclick="UI.enterChannelManager()">管理数据源</div>
+        <div style="font-size: 0.9em">数据源即其他人提供的可用视频源地址，你可以在这里对数据源进行添加、删除等操作。</div>
     </div>
 </div>

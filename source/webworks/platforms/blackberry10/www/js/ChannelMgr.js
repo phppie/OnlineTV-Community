@@ -26,7 +26,8 @@ var ChannelMgr = {
      * @param {type} callback 回调函数，参数为null或者JSON对象。
      * @returns {undefined}
      */
-    parse: function(url, callback) {
+    parse: function(dat, callback) {
+        var url = dat.url;
         $.getJSON(url).done(function(d) {
             callback(d);
         }).fail(function(e) {

@@ -16,7 +16,7 @@
 
 //频道源管理器
 var ChannelListMgr = {
-    default: "local://data/default.json",
+    default: new ChannelList("默认", "local://data/default.json"),
     data: null,
     /*
      * 从存储中载入数据，如果没有，就载入内置默认数据
@@ -112,6 +112,10 @@ var ChannelListMgr = {
             this.saveData();
         }
     },
+    removeByIndex: function(i) {
+        this.data.splice(i, 1);
+        this.saveData();
+    },
     /*
      * 根据数据源ID查找数组下标ID，内部方法，外部不需要调用。
      * 
@@ -126,6 +130,14 @@ var ChannelListMgr = {
             }
         }
         return -1;
+    },
+    /*
+     * 恢复到初始列表
+     * @returns {undefined}
+     */
+    resetToDefaultChannelList: function() {
+        this.data = [this.default];
+        this.saveData();
     }
 };
 /*

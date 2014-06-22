@@ -13,17 +13,20 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  */
-var FavMgr = {
+var HistoryMgr = {
     data: [],
     add: function(c) {
         if (c) {
+            while (this.data.length > 20) {
+                this.data.shift();
+            }
             for (var i = 0; i < this.data.length; i++) {
                 if (this.data[i].urls === c.urls)
                     return;
             }
             this.data.push(c);
             this.saveData();
-        }
+        }//需要加入判定重复的代码
     },
     remove: function(id) {
         var index = this.getIndexById(id);
@@ -36,7 +39,7 @@ var FavMgr = {
         }
     },
     clear: function() {
-        localStorage.removeItem("FAVDATA");
+        localStorage.removeItem("HISTORY");
         this.loadData();
     },
     export: function() {
@@ -55,7 +58,7 @@ var FavMgr = {
         return -1;
     },
     loadData: function() {
-        var localdata = localStorage.getItem("FAVDATA");
+        var localdata = localStorage.getItem("HISTORY");
         if (localdata) {
             this.data = JSON.parse(localdata);
         } else {
@@ -63,13 +66,6 @@ var FavMgr = {
         }
     },
     saveData: function() {
-        localStorage.setItem("FAVDATA", JSON.stringify(this.data));
+        localStorage.setItem("HISTORY", JSON.stringify(this.data));
     }
-}
-
-
-function Channel(name, urls) {
-    this.name = name;
-    this.urls = urls;
-    this.id = bb.guidGenerator();
 }

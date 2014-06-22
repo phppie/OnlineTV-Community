@@ -53,10 +53,101 @@ var UI = {
         var selected = $('[data-bb-type=image-list]')[0];
         if (selected) {
             selected = selected.selected;
+            var t = selected.getAttribute('data-bb-title');
             var u = JSON.parse(selected.getAttribute('data-list-urls'))[0];
-            otv.invokeVideo(u, selected.getAttribute('data-bb-title'), null, function(a) {
-
+            otv.invokeVideo(u, t, null, function(a) {
+                var item = new Channel(t, u);
+                HistoryMgr.add(item);
             });
         }
+    },
+    handleNormalClick: function(pid) {
+        /*
+         * 播放指定的频道清单
+         */
+        var selected = $('#' + pid).find('[data-bb-type=image-list]')[0];
+        if (selected) {
+            selected = selected.selected;
+            var t = selected.getAttribute('data-bb-title');
+            var u = JSON.parse(selected.getAttribute('data-list-urls'));
+            otv.invokeVideo(u, t, null, function(a) {
+                var item = new Channel(t, u);
+                HistoryMgr.add(item);
+            });
+        }
+    },
+    handleFavRemoveButton: function() {
+        var sel = $('#div_fav').find('[data-bb-type=image-list]')[0];
+        if (sel) {
+            var selected = sel.selected;
+            var id = selected.getAttribute('data-catagory-id');
+            FavMgr.remove(id);
+            selected.remove();
+        }
+    },
+    handleHistoryRemoveButton: function() {
+        var sel = $('#div_home').find('[data-bb-type=image-list]')[0];
+        if (sel) {
+            var selected = sel.selected;
+            var id = selected.getAttribute('data-catagory-id');
+            HistoryMgr.remove(id);
+            selected.remove();
+        }
+    },
+    handlebtnClick: function() {
+        /*
+         * 添加到收藏夹
+         */
+        var selected = $('[data-bb-type=image-list]')[0];
+        if (selected) {
+            selected = selected.selected;
+            var t = selected.getAttribute('data-bb-title');
+            var u = JSON.parse(selected.getAttribute('data-list-urls'))[0];
+            var item = new Channel(t, u);
+            FavMgr.add(item);
+        }
+    },
+    resetData: function() {
+        Toast.regular("已重置为默认数据", 1000);
+        ChannelListMgr.resetToDefaultChannelList();
+        bb.popScreen();
+    },
+    addChannelList: function() {
+        bb.pushScreen("addChannelList.html", "add.channellist");
+    },
+    addChannelListByURL: function(urlid, nameid) {
+        var u = $('#' + urlid).val();
+        var n = $('#' + nameid).val();
+        ChannelListMgr.add(n, u, function(a) {
+            if (a > 0) {
+                bb.popScreen();
+            } else {
+                Toast.regular("所输入的频道源无法解析，请修改后重试。")
+            }
+        });
+    },
+    paste: function(id) {
+        alert("待添加");
+    },
+    enterSettings: function() {
+        bb.pushScreen("settings.html", "settings");
+    },
+    enterChannelManager: function() {
+        bb.pushScreen("sourceManager.html", "channelManager");
+    },
+    refreshData: function() {
+        otv.loadHome();
+    },
+    handleChannelMgrRemove: function() {
+        var sel = $('[data-bb-type=image-list]')[0];
+        if (sel) {
+            var selected = sel.selected;
+            var id = selected.getAttribute('data-catagory-index');
+            ChannelListMgr.removeByIndex(id);
+            selected.remove();
+        }
+    },
+    handleChannelMgrClick: function() {
+
     }
 };
